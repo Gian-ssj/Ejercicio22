@@ -1,0 +1,31 @@
+#include <Servo.h>
+
+const int sensorPin = 2;
+const int servoPin = 9;
+
+Servo myservo;
+int doorState = 0;
+int previousDoorState = 0;
+
+void setup() {
+  pinMode(sensorPin, INPUT);
+  myservo.attach(servoPin);
+  myservo.write(0);
+}
+
+void loop() {
+  doorState = digitalRead(sensorPin);
+
+  if (doorState != previousDoorState) {
+    if (doorState == HIGH) {
+      // Puerta abierta
+      myservo.write(90);  // Gira el servo a 90 grados (posición cerrada)
+      delay(1000); // Espera 1 segundo
+    } else {
+      // Puerta cerrada
+      myservo.write(0);  // Gira el servo a 0 grados (posición abierta)
+      delay(1000); // Espera 1 segundo
+    }
+    previousDoorState = doorState;
+  }
+}
